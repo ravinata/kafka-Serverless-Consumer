@@ -1,0 +1,23 @@
+echo "creating a bridge customer and then using that customer to subscribe to 1 or more topics is required"
+echo "\n\n\n"
+
+echo "1.creating bridge customer..."
+curl -X POST "http://my-bridge-bridge-service.openshift-operators.svc.cluster.local:8080/consumers/my-topic-consumer-group" \
+  -H 'content-type: application/vnd.kafka.v2+json' \
+  -d '{
+    "name": "my-topic-consumer",
+    "auto.offset.reset": "earliest",
+    "format": "json",
+    "enable.auto.commit": false,
+    "fetch.min.bytes": 512,
+    "consumer.request.timeout.ms": 30000
+  }'
+
+echo "2.subscribe to the topic as a customer..."
+curl -X POST http://my-bridge-bridge-service.openshift-operators.svc.cluster.local:8080/consumers/my-topic-consumer-group/instances/my-topic-consumer/subscription \
+  -H 'content-type: application/vnd.kafka.v2+json' \
+  -d '{
+    "topics": [
+        "my-topic"
+    ]
+}'
