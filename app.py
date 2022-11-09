@@ -5,6 +5,10 @@ import os
 import requests
 import boto3
 import datetime
+from datetime import datetime, date
+
+yyyy-mm-dd = str(date.today())
+now = datetime.datetime.now()
 
 aws_access_key_id = "AKIA4VEYXFSR7QSUPHMF"
 aws_secret_access_key = "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"
@@ -67,7 +71,8 @@ def publish2S3(msg):
 
     s3 = session.resource('s3')
     
-    prefix = 'folder_' + datetime.now().strftime("%I%p") + "/"
+    prefix = 'folder_' + yyyy-mm-dd + "/" + now
+    print("AWS S3 bucket folder and file: ", prefix)
 
     object = s3.Object(aws_s3_bucket, prefix)
     result = object.put(Body=msg)
