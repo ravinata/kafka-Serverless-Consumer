@@ -6,6 +6,7 @@ import requests
 
 headers = {
     'content-type': 'application/vnd.kafka.json.v2+json',
+    'accept': 'application/vnd.kafka.json.v2+json'
 }
 
 kafka_consumer_group = "http://my-bridge-bridge-service.openshift-operators.svc.cluster.local:8080/consumers/my-topic-consumerX-group"
