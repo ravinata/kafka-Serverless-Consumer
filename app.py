@@ -3,6 +3,11 @@
 import json
 import os
 import requests
+import boto3
+
+aws_access_key_id = "AKIA4VEYXFSR7QSUPHMF"
+aws_secret_access_key = "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"
+aws_s3_bucket = "rhel9-820-homelabs-iot-sensor"
 
 headers = {
     'content-type': 'application/vnd.kafka.json.v2+json',
@@ -44,9 +49,11 @@ def subscribe2kafkaTopic():
     listenAndProcess()
     
 def listenAndProcess():
-    print("*** 3. Fetching Records... ")
-    response = requests.get(kafka_consumer_records, headers=headers)
-    print(response.text)
+    while True:
+      print("*** 3. Fetching Records... ")
+      response = requests.get(kafka_consumer_records, headers=headers)
+      print(response.text)
+      publish2S3(response.text)
     
 def publish2S3(msg):
     print("4. Publishing to AWS S3")
@@ -68,6 +75,6 @@ def publish2S3(msg):
     else:
         print('File Not Uploaded')
 
+#main
 if __name__ == '__main__':
     process()
-
