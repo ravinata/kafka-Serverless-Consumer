@@ -21,7 +21,6 @@ def create_consumer():
     data['name'] = 'my-topic-consumer'
     data['auto.offset.reset'] = 'earliest'
     data['format'] = 'json'
-    data['enable.auto.commit'] = 'false'
     data['fetch.min.bytes'] = 512
     data['consumer.request.timeout.ms'] = 30000
     json_data = json.dumps(data)
@@ -48,7 +47,7 @@ def subscribe2kafkaTopic():
     if (response.status_code) == 200:
        subscribe2kafkaTopic()
     else:
-       print("error creating consumer", response.txt)
+       print("error creating consumer", response.text)
        exit()
     
 def listenAndProcess():
@@ -57,7 +56,7 @@ def listenAndProcess():
     if (response.status_code) == 200:
        print("Successful get!")
     else:
-       print("error creating consumer", response.txt)
+       print("error creating consumer", response.text)
        exit()
     
 def publish2S3(msg):
