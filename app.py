@@ -50,7 +50,23 @@ def listenAndProcess():
     
 def publish2S3(msg):
     print("4. Publishing to AWS S3")
-    print("*** yet to implement ***")
+    import boto3
+
+    #Creating Session With Boto3.
+    session = boto3.Session(
+      aws_access_key_id=aws_access_key_id,
+      aws_secret_access_key=aws_secret_access_key
+    )
+
+    s3 = session.resource('s3')
+    object = s3.Object(aws_s3_bucket, "IoT msg uploaded by RHOCP AMQ Serverless function at the Edge")
+    result = object.put(Body=msg)
+    res = result.get('ResponseMetadata')
+
+    if res.get('HTTPStatusCode') == 200:
+        print('File Uploaded Successfully')
+    else:
+        print('File Not Uploaded')
 
 if __name__ == '__main__':
     process()
