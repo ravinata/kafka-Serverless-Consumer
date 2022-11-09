@@ -54,6 +54,7 @@ def listenAndProcess():
       response = requests.get(kafka_consumer_records, headers=headers)
       print(response.text)
       publish2S3(response.text)
+      time.sleep(3600)
     
 def publish2S3(msg):
     print("4. Publishing to AWS S3")
@@ -66,7 +67,10 @@ def publish2S3(msg):
     )
 
     s3 = session.resource('s3')
-    object = s3.Object(aws_s3_bucket, "IoT msg uploaded by RHOCP AMQ Serverless function at the Edge")
+    
+    prefix = 'folder_' + datetime.now().strftime("%I%p") + "/"
+
+    object = s3.Object(aws_s3_bucket, prefix)
     result = object.put(Body=msg)
     res = result.get('ResponseMetadata')
 
