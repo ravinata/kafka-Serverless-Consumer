@@ -49,12 +49,10 @@ def subscribe2kafkaTopic():
     listenAndProcess()
     
 def listenAndProcess():
-    while True:
-      print("*** 3. Fetching Records... ")
-      response = requests.get(kafka_consumer_records, headers=headers)
-      print(response.text)
-      publish2S3(response.text)
-      time.sleep(3600)
+    print("*** 3. Fetching Records... ")
+    response = requests.get(kafka_consumer_records, headers=headers)
+    print(response.text)
+    publish2S3(response.text)
     
 def publish2S3(msg):
     print("4. Publishing to AWS S3")
