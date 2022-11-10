@@ -4,7 +4,7 @@ import json
 import os
 import requests
 import boto3
-import datetime
+import datetime, time
 from datetime import datetime, date
 
 dateTimeObj  = datetime.now()
@@ -49,11 +49,19 @@ def subscribe2kafkaTopic():
     data = {}
     data['topics'] = ['my-topic']
     json_data = json.dumps(data)
-
-    print("data to kafka:" + json_data)
-    response = requests.post(kafka_consumer_topic, headers=headers, data=json_data)
-    print(response.text)
-    listenAndProcess()
+    
+    count=0
+    while True:
+      response = requests.post(kafka_consumer_topic, headers=headers, data=json_data)
+      print(response.text)
+      if len(response.text) > 20:
+         print("data to kafka:" + json_data)
+         listenAndProcess()
+      count+=1
+      if count > 50:
+         exit()
+      time.sleep(300)
+      
     
 def listenAndProcess():
     print("*** 3. Fetching Records... ")
