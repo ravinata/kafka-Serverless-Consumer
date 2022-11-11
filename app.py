@@ -47,14 +47,9 @@ def publish2S3(msg):
     print("AWS S3 bucket folder and file: ", prefix)
 
     s3object = s3.Object(aws_s3_bucket, prefix)
+    ret = s3object.put(Body=(bytes(json.dumps(msg).encode('UTF-8'))))
+    print("put object into AWS S3 bucket: ", ret)
     
-    s3object.put(Body=(bytes(json.dumps(msg).encode('UTF-8'))))
-    res = result.get('ResponseMetadata')
-
-    if res.get('HTTPStatusCode') == 200:
-        print('File Uploaded Successfully')
-    else:
-        print('File Not Uploaded')
 
 #main
 if __name__ == '__main__':
