@@ -54,7 +54,7 @@ def subscribe2kafkaTopic():
     count=0
     while True:
       print("checking for messages...")
-      response = requests.post(kafka_consumer_topic, headers=headers, data=json_data)
+      response = requests.get(kafka_consumer_topic, headers=headers)
       print(response.status)
       print(response.text)
       if len(response.text) > 20:
