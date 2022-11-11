@@ -35,8 +35,6 @@ def process():
     
 def publish2S3(msg):
     print("4. Publishing to AWS S3")
-    import boto3
-
     #Creating Session With Boto3.
     session = boto3.Session(
       aws_access_key_id=aws_access_key_id,
@@ -48,8 +46,9 @@ def publish2S3(msg):
     prefix =  dateStr  + "/" + timestampStr
     print("AWS S3 bucket folder and file: ", prefix)
 
-    object = s3.Object(aws_s3_bucket, prefix)
-    result = object.put(Body=msg)
+    s3object = s3.Object(aws_s3_bucket, prefix)
+    
+    s3object.put(Body=(bytes(json.dumps(msg).encode('UTF-8'))))
     res = result.get('ResponseMetadata')
 
     if res.get('HTTPStatusCode') == 200:
