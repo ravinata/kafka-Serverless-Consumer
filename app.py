@@ -34,7 +34,7 @@ def process():
     data['name'] = 'my-topic-consumerX'
     data['auto.offset.reset'] = 'earliest'
     data['format'] = 'json'
-    data['fetch.min.bytes'] = 512
+    data['fetch.min.bytes'] = 128
     data['consumer.request.timeout.ms'] = 30000
     json_data = json.dumps(data)
 
