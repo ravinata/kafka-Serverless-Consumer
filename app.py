@@ -40,6 +40,7 @@ def process():
 
     print("data to kafka:" + json_data)
     response = requests.post(kafka_consumer_group, headers=headers, data=json_data)
+    print(response.status)
     print(response.text)
     subscribe2kafkaTopic()
 
@@ -54,6 +55,7 @@ def subscribe2kafkaTopic():
     while True:
       print("checking for messages...")
       response = requests.post(kafka_consumer_topic, headers=headers, data=json_data)
+      print(response.status)
       print(response.text)
       if len(response.text) > 20:
          print("data to kafka:" + json_data)
